@@ -3,24 +3,16 @@
 #include <stdbool.h>
 
 void help(){
-    printf("\n cd - change directory");
-    printf("\n nd - new directory");
+    printf("\n cd - new directory");
     printf("\n ls - show directory");
     printf("\n help - show commands list");
     printf("\n exit - terminate\n\n");
 }
 
-
-
-
 void PrintDir(char *cdir){
-
-    printf("firststate\n");
-
     DIR *dp = opendir(cdir);
-    printf("2\n");
     printf(cdir);
-    printf("1\n");
+    printf("\n");
     struct dirent *ep;
     if (dp == NULL){
         printf("Null");
@@ -32,49 +24,43 @@ void PrintDir(char *cdir){
             printf("\n");
         }
     }
-
     closedir(dp);
-
     return;
 }
 
 int main(int argc, char *argv[]) {
-
-    char *tempcd;
-    char *temps;
-    char temp[30] = "123";
-    char *arg;
+    char temparg[30] = "";
+    char tempdir[30] = "";
     bool EM = false;
-
-    gets(temp);
-    printf(temp);
-
-    temps = temp;
-    printf(temps);
-    argv[2] = temps;
-    tempcd = argv[2];
+    char dir_path[512];
+    argv[3] = getcwd(dir_path, sizeof(dir_path));
+    switch(argc){
+        case 2:
+            if (strcmp(argv[1], "ls") == 0) {
+                PrintDir(argv[3]);
+            }
+            break;
+        case 3:
+            if (strcmp(argv[1], "ls") == 0) {
+                PrintDir(argv[2]);
+            }
+            break;
+    }
 
     while (!EM) {
-        argv[1] = gets(temp);
-        //gets(arg);
-        if (strcmp(argv[1], "cd") == 0) {
-            printf("1123\n");
-            argv[2] = gets(temp);
-            printf(argv[2]);
+        printf("\n");
+        printf(argv[3]);
+        printf("\n");
+        argv[2] = gets(temparg);
+        if (strcmp(argv[2], "cd") == 0) {
+            argv[3] = gets(tempdir);
             printf("\n");
-        } else if (strcmp(argv[1], "ls") == 0) {
-            printf("321\n");
-
-            printf(tempcd);
-
-            PrintDir(tempcd);
-        } else if (strcmp(argv[1], "exit") == 0) {
+        } else if (strcmp(argv[2], "ls") == 0) {
+            PrintDir(argv[3]);
+            printf("\n");
+        } else if (strcmp(argv[2], "exit") == 0) {
             EM = true;
-        } else if (strcmp(argv[1], "nd") == 0) {
-            argv[2] = gets(temp);
-            printf(argv[2]);
-            printf("/n");
-        } else if (strcmp(argv[1], "help") == 0) {
+        } else if (strcmp(argv[2], "help") == 0) {
             help();
         } else {
             printf("try again\n");
